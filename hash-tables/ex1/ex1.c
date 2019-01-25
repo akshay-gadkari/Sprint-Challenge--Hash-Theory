@@ -8,23 +8,16 @@ Answer *get_indices_of_item_weights(int *weights, int length, int limit)
   HashTable *ht = create_hash_table(16);
 
   // YOUR CODE HERE
-  int key = 0;
-  int index_1;
-  int index_2;
-  int same_val;
-  int value;
-  struct Answer *complete = malloc(sizeof(struct Answer));
-  if (length < 2) {
-    return NULL;
-  }
-  else if (length == 2) {
-    if(weights[0] + weights[1] == limit) { //
-      complete->index_1 = 1;
-      complete->index_1 = 0;
-      return complete;
+  Answer *ans = malloc(sizeof(Answer *));
+
+  for (int i = 0; i < length; i++) {
+    if ((hash_table_retrieve(ht, weights[i])) != -1) {
+      ans->index_1 = i;
+      ans->index_2 = hash_table_retrieve(ht, weights[i]);
+      return ans;
     }
-    else{
-      return NULL;
+    else {
+      hash_table_insert(ht, (limit - weights[i]), i);
     }
   }
   return NULL;
